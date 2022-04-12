@@ -22,7 +22,7 @@ gem install datadog_backup
 ![demo](images/demo.gif)
 
 ```
-DATADOG_API_KEY=example123 DATADOG_APP_KEY=example123 datadog_backup <backup|diffs|restore> [--backup-dir /path/to/backups] [--debug] [--monitors-only] [--dashboards-only] [--diff-format color|html|html_simple] [--no-color] [--json]
+DATADOG_API_KEY=example123 DATADOG_APP_KEY=example123 datadog_backup <backup|diffs|restore> [--backup-dir /path/to/backups] [--debug] [--monitors-only] [--dashboards-only] [--synthetics-only] [--diff-format color|html|html_simple] [--no-color] [--json]
 ```
 
 ```
@@ -42,6 +42,8 @@ datadog_backup diffs
 
 datadog_backup restore
 ```
+
+Restoring has not been tested against synthetics but I'm skeptical it'll work as-is.
 ## Parameters
 
 Supply the following parameters in order to customize datadog_backup:
@@ -52,8 +54,9 @@ parameter            | description                                              
 --shh                | log warnings and above                                                                                                        | info
 --shhh               | log errors and above                                                                                                          | info
 --backup-dir PATH    | path to the directory to backup to or restore from                                                                            | `./backup/`
---monitors-only      | only backup monitors                                                                                                          | backup monitors and dashboards
---dashboards-only    | only backup dashboards                                                                                                        | backup monitors and dashboards
+--monitors-only      | only backup monitors                                                                                                          | backup monitors
+--dashboards-only    | only backup dashboards                                                                                                        | backup dashboards
+--dashboards-only    | only backup synthetics                                                                                                        | backup synthetics
 --json               | format backups as JSON instead of YAML. Does not impact `diffs` nor `restore`, but do not mix formats in the same backup-dir. | YAML
 --no-color           | removes colored output from diff format
 --diff-format FORMAT | one of `color`, `html_simple`, `html`                                                                                         | `color`

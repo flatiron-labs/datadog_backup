@@ -27,8 +27,12 @@ module DatadogBackup
     # Returns the diffy diff.
     # Optionally, supply an array of keys to remove from comparison
     def diff(id)
+      mem = load_from_file_by_id(id)
+      filesystem = except(mem).deep_sort.to_yaml
+      if @typeMap && @typeMap.fetch(id, nil).nil? 
+        @typeMap[id] = mem.fetch('type')
+      end
       current = except(get_by_id(id)).deep_sort.to_yaml
-      filesystem = except(load_from_file_by_id(id)).deep_sort.to_yaml
       result = ::Diffy::Diff.new(current, filesystem, include_plus_and_minus_in_html: true).to_s(diff_format)
       logger.debug("Compared ID #{id} and found #{result}")
       result
